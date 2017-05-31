@@ -49,6 +49,12 @@ def restore_regvars(func_addr, regvars):
 
 segments = list(idautils.Segments())
 for segment in segments:
+    if idc.SegName(segment) == ".plt":
+        plt_seg = segment
+        plt_start = idc.SegStart(plt_seg)
+        plt_end = idc.SegEnd(plt_seg)
+
+for segment in segments:
     permissions = idaapi.getseg(segment).perm
     if not permissions & idaapi.SEGPERM_EXEC:
         continue
